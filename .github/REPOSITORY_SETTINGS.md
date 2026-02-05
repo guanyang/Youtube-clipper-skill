@@ -6,12 +6,12 @@
 
 ### Description（描述）
 ```
-AI-powered YouTube video clipper for Claude Code. Download videos, generate semantic chapters, clip segments, translate subtitles to bilingual format, and burn subtitles into videos.
+AI-powered YouTube video clipper. Download videos, generate semantic chapters, clip segments, translate subtitles to bilingual format, and burn subtitles into videos.
 ```
 
 或中文版本：
 ```
-Claude Code 的 AI 智能视频剪辑工具。下载视频、生成语义章节、剪辑片段、翻译双语字幕并烧录字幕到视频。
+AI 智能视频剪辑工具。下载视频、生成语义章节、剪辑片段、翻译双语字幕并烧录字幕到视频。
 ```
 
 ### Website（网站）
@@ -23,8 +23,8 @@ https://github.com/op7418/Youtube-clipper-skill
 建议添加以下标签：
 - `youtube`
 - `video-clipper`
-- `claude-code`
-- `claude-code-skill`
+- `cursor-rules`
+- `ai-agent`
 - `subtitle-translation`
 - `bilingual-subtitles`
 - `video-editing`
@@ -53,5 +53,5 @@ https://github.com/op7418/Youtube-clipper-skill
 
 建议内容：
 - 项目标题：YouTube Clipper Skill
-- 简短描述：AI-Powered Video Clipping for Claude Code
+- 简短描述：AI-Powered Video Clipping Tool
 - 视觉元素：视频图标、AI 图标、剪辑符号

@@ -11,12 +11,11 @@ allowed-tools:
   - Bash
   - Glob
   - AskUserQuestion
-model: claude-sonnet-4-5-20250514
 ---
 
 # YouTube 视频智能剪辑工具
 
-> **Installation**: If you're installing this skill from GitHub, please refer to [README.md](README.md#installation) for installation instructions. The recommended method is `npx skills add https://github.com/op7418/Youtube-clipper-skill`.
+> **Installation**: Please refer to [README.md](README.md#installation) for installation instructions.
 
 ## 工作流程
 
@@ -45,8 +44,8 @@ model: claude-sonnet-4-5-20250514
 
 3. 检测 Python 依赖
    ```bash
-   python3 -c "import yt_dlp; print('✅ yt-dlp available')"
-   python3 -c "import pysrt; print('✅ pysrt available')"
+   python3 -c "import yt_dlp; print('✅ yt-dlp available')" || ./.venv/bin/python3 -c "import yt_dlp; print('✅ yt-dlp available')"
+   python3 -c "import pysrt; print('✅ pysrt available')" || ./.venv/bin/python3 -c "import pysrt; print('✅ pysrt available')"
    ```
 
 **如果环境检测失败**:
@@ -55,7 +54,7 @@ model: claude-sonnet-4-5-20250514
   ```bash
   brew install ffmpeg-full  # macOS
   ```
-- Python 依赖缺失: 提示 `pip install pysrt python-dotenv`
+- Python 依赖缺失: 运行 `bash setup.sh` 或激活虚拟环境 `source .venv/bin/activate`
 
 **注意**:
 - 标准 Homebrew FFmpeg 不包含 libass，无法烧录字幕
@@ -72,8 +71,9 @@ model: claude-sonnet-4-5-20250514
 
 2. 调用 download_video.py 脚本
    ```bash
-   cd ~/.claude/skills/youtube-clipper
-   python3 scripts/download_video.py <youtube_url>
+   cd <tool_directory>
+   # 优先使用 venv python
+   ./.venv/bin/python3 scripts/download_video.py <youtube_url>
    ```
 
 3. 脚本会：
@@ -95,11 +95,11 @@ model: claude-sonnet-4-5-20250514
 
 ### 阶段 3: 分析章节（核心差异化功能）
 
-**目标**: 使用 Claude AI 分析字幕内容，生成精细章节（2-5 分钟级别）
+**目标**: 使用 AI 分析字幕内容，生成精细章节（2-5 分钟级别）
 
 1. 调用 analyze_subtitles.py 解析 VTT 字幕
    ```bash
-   python3 scripts/analyze_subtitles.py <subtitle_path>
+   ./.venv/bin/python3 scripts/analyze_subtitles.py <subtitle_path>
    ```
 
 2. 脚本会输出结构化字幕数据：
@@ -107,7 +107,7 @@ model: claude-sonnet-4-5-20250514
    - 总时长
    - 字幕条数
 
-3. **你需要执行 AI 分析**（这是最关键的步骤）：
+3. **执行 AI 分析**（这是最关键的步骤）：
    - 阅读完整字幕内容
    - 理解内容语义和主题转换点
    - 识别自然的话题切换位置
@@ -130,8 +130,8 @@ model: claude-sonnet-4-5-20250514
    📊 分析完成，生成 X 个章节：
 
    1. [00:00 - 03:15] AGI 不是时间点，是指数曲线
-      核心: AI 模型能力每 4-12 月翻倍，工程师已用 Claude 写代码
-      关键词: AGI、指数增长、Claude Code
+      核心: AI 模型能力每 4-12 月翻倍，工程师已用 AI 写代码
+      关键词: AGI、指数增长、AI Code
 
    2. [03:15 - 06:30] 中国在 AI 上的差距
       核心: 芯片禁运卡住中国，DeepSeek benchmark 优化不代表实力
@@ -169,7 +169,7 @@ model: claude-sonnet-4-5-20250514
 
 #### 5.1 剪辑视频片段
 ```bash
-python3 scripts/clip_video.py <video_path> <start_time> <end_time> <output_path>
+./.venv/bin/python3 scripts/clip_video.py <video_path> <start_time> <end_time> <output_path>
 ```
 - 使用 FFmpeg 精确剪辑
 - 保持原始视频质量
@@ -183,7 +183,7 @@ python3 scripts/clip_video.py <video_path> <start_time> <end_time> <output_path>
 
 #### 5.3 翻译字幕（如果用户选择）
 ```bash
-python3 scripts/translate_subtitles.py <subtitle_path>
+./.venv/bin/python3 scripts/translate_subtitles.py <subtitle_path>
 ```
 - **批量翻译优化**: 每批 20 条字幕一起翻译（节省 95% API 调用）
 - 翻译策略：
@@ -200,7 +200,7 @@ python3 scripts/translate_subtitles.py <subtitle_path>
 
 #### 5.5 烧录字幕到视频（如果用户选择）
 ```bash
-python3 scripts/burn_subtitles.py <video_path> <subtitle_path> <output_path>
+./.venv/bin/python3 scripts/burn_subtitles.py <video_path> <subtitle_path> <output_path>
 ```
 - 使用 ffmpeg-full（libass 支持）
 - **使用临时目录解决路径空格问题**（关键！）
@@ -212,7 +212,7 @@ python3 scripts/burn_subtitles.py <video_path> <subtitle_path> <output_path>
 
 #### 5.6 生成总结文案（如果用户选择）
 ```bash
-python3 scripts/generate_summary.py <chapter_info>
+./.venv/bin/python3 scripts/generate_summary.py <chapter_info>
 ```
 - 基于章节标题、摘要和关键词
 - 生成适合社交媒体的文案
@@ -323,7 +323,7 @@ python3 scripts/generate_summary.py <chapter_info>
 ### 环境问题
 - 缺少工具 → 提示安装命令
 - FFmpeg 无 libass → 引导安装 ffmpeg-full
-- Python 依赖缺失 → 提示 pip install
+- Python 依赖缺失 → 运行 `bash setup.sh`
 
 ### 下载问题
 - 无效 URL → 提示检查 URL 格式
